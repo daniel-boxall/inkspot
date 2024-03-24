@@ -42,4 +42,18 @@ router.put('/profile', async (req, res) => {
   }
 });
 
+router.get('/profile', async (req, res) => {
+  try {
+    // Assuming you have a method to fetch artist profile data from the database
+    const artistProfile = await Artist.findOne({ /* Specify your query criteria */ });
+    if (!artistProfile) {
+      return res.status(404).json({ error: 'Artist profile not found' });
+    }
+    res.status(200).json(artistProfile);
+  } catch (error) {
+    console.error('Error fetching artist profile:', error);
+    res.status(500).json({ error: 'An error occurred while fetching artist profile' });
+  }
+});
+
 module.exports = router;
