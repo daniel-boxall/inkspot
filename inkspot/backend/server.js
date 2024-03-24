@@ -6,6 +6,9 @@ const verifyToken = require('./middleware/authMiddleware');
 const protectedRoute = require('./routes/protectedRoute');
 const limiter = require('./middleware/rateLimitMiddleware'); // Import rate limit middleware
 require('dotenv').config(); // Load environment variables from .env file
+const searchRoutes = require('./routes/search');
+const sessionMiddleware = require('./middleware/sessionMiddleware');
+const artistRoutes = require('./routes/artistRoutes'); // Import artist routes
 
 // Create Express app
 const app = express();
@@ -14,6 +17,10 @@ const PORT = process.env.PORT || 5000;
 // Set up middleware
 app.use(express.json());
 app.use(limiter);
+app.use('/api/search', searchRoutes);
+app.use(sessionMiddleware);
+app.use('/api/artist', artistRoutes);
+
 
 // Database connection
 const dbConnectionString = process.env.DB_CONNECTION_STRING; // Get DB connection string from .env file

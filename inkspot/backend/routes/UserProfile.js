@@ -43,6 +43,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/privacy', async (req, res) => {
+  const { userId, profileVisibility, messagePrivacy, postVisibility } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(userId, {
+      profileVisibility,
+      messagePrivacy,
+      postVisibility
+    }, { new: true });
+    res.json(user);
+  } catch (error) {
+    console.error('Error updating privacy settings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Route to delete user profile by ID
 router.delete('/:id', async (req, res) => {
   try {
